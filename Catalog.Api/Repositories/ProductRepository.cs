@@ -24,8 +24,9 @@ namespace Catalog.Api.Repositories
         {
             FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(p => p.Id, id);
 
-            DeleteResult deleteResult = await catalogService.Products.DeleteOneAsync(filter); 
+            DeleteResult deleteResult = await catalogService.Products.DeleteOneAsync(filter);
 
+            // IsAcknowledged to verify is mongo performed the operation and DeletedCount in case the id was found and deleted
             return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
         }
 
