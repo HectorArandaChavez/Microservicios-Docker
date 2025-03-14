@@ -41,8 +41,11 @@ namespace Catalog.Api.Repositories
         }
 
         public async Task<bool> UpdateProduct(Product product)
-        {
-            var updateResult = await catalogService.Products.ReplaceOneAsync(filter: p => p.Id == product.Id, replacement: product);
+        {            
+            FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(p => p.Id, product.Id);
+
+            ReplaceOneResult updateResult = await catalogService.Products.ReplaceOneAsync(filter, replacement: product);
+            // var updateResult = await catalogService.Products.ReplaceOneAsync(filter: p => p.Id == product.Id, replacement: product);
 
             return updateResult.IsAcknowledged && updateResult.ModifiedCount > 0;
         }
